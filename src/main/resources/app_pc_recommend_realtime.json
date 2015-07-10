@@ -1,0 +1,91 @@
+{
+	"run_local_mode" : false,
+	"run_debug_mode" : false,
+
+	"topology_name" : "app_pc_recommend_realtime",
+	"topology_num_workers" : 3,
+	
+	"kafka_zk_servers" : "hadoop16:2181,hadoop17:2181,hadoop18:2181/kafka08",
+ 	"kafka_zk_broker_path" : "/brokers",
+	"zk_root" : "/storm2/kafka08",
+	"kafka_topics" : [
+		{
+			"topic_name" : "log.b",
+			"start_offset" : -1,
+
+			"spout_num_executors" : 6,
+
+			"bolt_name_prefix" : "BLog",
+			"bolt_num_executors" : 3
+		},
+        {
+            "topic_name" : "log.eventlog",
+            "start_offset" : -1,
+            "spout_num_executors" : 3,
+
+            "bolt_name_prefix" : "EventLog",
+            "bolt_num_executors" : 1
+        },
+        {
+            "topic_name" : "log.data_resys_routerres",
+            "start_offset" : -1,
+            "spout_num_executors" : 6,
+
+            "bolt_name_prefix" : "ResysLog",
+            "bolt_num_executors" : 3
+        }
+
+	],
+
+	"bolts" : [
+		{
+            "component_id" : "user_action_sync",
+            "data_source" : "log.b",
+
+            "bolt_name_prefix" : "UserBehavoirHbaseSync",
+            "bolt_num_executors" : 3
+        },
+        {
+            "component_id" : "user_action_redis_sync",
+            "data_source" : "log.b",
+
+            "bolt_name_prefix" : "UserBehavoirRedisSync",
+            "bolt_num_executors" : 3
+        },
+        {
+            "component_id" : "rec_monitor",
+            "data_source" : "log.b",
+
+            "bolt_name_prefix" : "RecMonitor",
+            "bolt_num_executors" : 3
+        },
+        {
+            "component_id" : "uuid_userid_redis_sync",
+            "data_source" : "log.b",
+
+            "bolt_name_prefix" : "UUIDUserIdRedisSync",
+            "bolt_num_executors" : 3
+        },
+        {
+            "component_id" : "impression_redis_sync",
+            "data_source" : "log.data_resys_routerres",
+
+            "bolt_name_prefix" : "ImpressionRedisSync",
+            "bolt_num_executors" : 3
+        },
+        {
+            "component_id" : "click_redis_sync",
+            "data_source" : "log.eventlog",
+
+            "bolt_name_prefix" : "ClickRedisSync",
+            "bolt_num_executors" : 1
+        },
+        {
+            "component_id" : "rec_model",
+            "data_source" : "click_redis_sync",
+
+            "bolt_name_prefix" : "RecModel",
+            "bolt_num_executors" : 1
+        }
+	]
+}

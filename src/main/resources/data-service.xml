@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="hbaseClient"
+          class="com.meituan.storm.dataservice.UserActionHbaseClient">
+    </bean>
+
+    <bean id="userActionRedisClient"
+          class="com.meituan.storm.dataservice.UserActionRedisClient">
+    </bean>
+
+    <bean id="redisClient"
+          class="com.meituan.storm.dataservice.RecMonitorClient">
+    </bean>
+
+    <bean id="uuidUserIdRedisClient"
+          class="com.meituan.storm.dataservice.UUIDUserIdRedisClient">
+    </bean>
+
+    <bean id="impressionRedisClient"
+          class="com.meituan.storm.dataservice.ImpressionRedisClient">
+    </bean>
+
+    <bean id="clickRedisClient"
+          class="com.meituan.storm.dataservice.ClickRedisClient">
+    </bean>
+
+    <bean id="recModelClient"
+          class="com.meituan.storm.dataservice.RecModelClient">
+    </bean>
+</beans>

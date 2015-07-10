@@ -1,0 +1,6 @@
+<configuration>
+    <property>
+        <name>hbase.client.commit.threads.max</name>
+        <value>512</value>
+    </property>
+</configuration>
